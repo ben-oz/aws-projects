@@ -15,3 +15,9 @@ def number():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#if this code will be run on ec2:
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=80, debug=True) #but inbound port 80 must be allowed on sec grp
+
+
