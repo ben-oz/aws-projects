@@ -7,8 +7,15 @@
     <title>Document</title>
 </head>
 <body>
+    <!--
     {% for x in range(1,11) %}
         <h1>{{ x }}<h1>
     {% endfor %}
+    -->
+    {% for x in range(1,11) %}
+        <h{{x}}>{{ x }}<h{{x}}>
+    {% endfor %}
+    
+
 </body>
 </html>
