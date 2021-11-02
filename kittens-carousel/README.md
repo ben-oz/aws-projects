@@ -1,7 +1,7 @@
 # Project-101: Kittens Carousel Static Website deployed on AWS EC2 using Cloudformation
 
 ## Description
-Kittens Carousel is a static website application deployed with Apache Web Server on AWS Elastic Compute Cloud (EC2) Instance using AWS Cloudformation Service. 
+Kittens Carousel is a static website application deployed with Apache Web Server on AWS Elastic Compute Cloud (EC2) Instance using AWS CloudFormation Service. 
 
 ## Problem Statement
 
@@ -45,9 +45,6 @@ Kittens Carousel is a static website application deployed with Apache Web Server
         |----cat2.jpg    # Given to the students (image file)
 ```
 
-## Expected Outcome
-
-![Project 101 : Kittens Carousel Application Snapshot](./project-101-snapshot.png)
 
 ### At the end of the project, following topics are to be covered;
 
@@ -66,25 +63,3 @@ Kittens Carousel is a static website application deployed with Apache Web Server
 - AWS Cloudformation Template Design
 
 - Git & Github for Version Control System
-
-### At the end of the project, students will be able to;
-
-- install Apache Web Server on Amazon Linux 2.
-
-- improve bash scripting skills using `user data` section in Cloudformation to install and setup web application on EC2 Instance.
-
-- configure AWS EC2 Instance and Security Groups.
-
-- configure Cloudformation template to use AWS Resources.
-
-- use AWS Cloudformation Service to launch stacks.
-
-- use git commands (push, pull, commit, add etc.) and Github as Version Control System.
-
-## Notes
-
-- Customize the application by hard-coding your name instead of `student_name` within `index.html`.
-
-## Resources
-
-- [AWS Cloudformation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)

@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This CloudFormation Template was written for running
+  a static Website on EC2. The Website will be deployed
+  on a Amazon Linux 2 EC2 Instance Apache Web Server. 
+  Static files are downloaded from my GitHub repo.  
+
+Resources:
+  SecGrKCarouselWebServerResID:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allowing SSH and HTTP Inbound ports # Required
+      GroupName: SecGrKCarouselWebServer
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  KCarouselWebServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-01cc34ab2709337aa       # image ID given manually!  
+      InstanceType: t2.micro               # manually
+      KeyName: firstkey                    # manually
+      SecurityGroupIds:
+        - !Ref SecGrKCarouselWebServerResID
+      # SecurityGroups:            # to use an existing sec group name
+        # SecurityGroups           # not required. sec gr ID is enough
+      Tags:
+        - Key: Name
+          Value: !Sub Web Server of ${AWS::StackName}
+      UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            yum update -y
+            yum install httpd -y
+            STATIC_WEB="https://raw.githubusercontent.com/ben-oz/aws-projects/main/kittens-carousel/static-web"
+            cd /var/www/html
+            wget $STATIC_WEB/cat0.jpg
+            wget $STATIC_WEB/cat1.jpg
+            wget $STATIC_WEB/cat2.jpg
+            wget $STATIC_WEB/cat3.png
+            wget $STATIC_WEB/index.html
+            systemctl start httpd
+            systemctl enable httpd
+
+Outputs:
+  WebAddress:
+    Description: This is the URL of Kittens Carousel Website
+    Value: !Sub
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt KCarouselWebServer.PublicDnsName
