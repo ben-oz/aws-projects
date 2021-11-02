@@ -63,3 +63,9 @@ Kittens Carousel is a static website application deployed with Apache Web Server
 - AWS Cloudformation Template Design
 
 - Git & Github for Version Control System
+
+## Solution
+
+The CloudFormation script that creates the stack described above is the YAML file in the project directory:
+
+[Kitten_Carousel_Stack_CF_Script](./Kitten_Carousel_Stack_CF_Script.yml)
