@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This Cloud Formation Template creates a sec group and
+  an ec2 instance which downloads the code from github. 
+  Code is a Roman Numerals Converter web application 
+  written in python using Flask framework. 
+
+Parameters:
+  myKeyPair:
+    Description: Select your Key Pair
+    Type: AWS::EC2::KeyPair::KeyName
+  
+Resources:
+  SecGrIDRomanNumsWebApp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ssh and http outbound # Required
+      GroupName: SecGrRomanNumsWebApp
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        
+  RomanNumsWebAppServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-01cc34ab2709337aa
+      InstanceType: t2.micro
+      KeyName: !Ref myKeyPair
+      SecurityGroupIds:
+        - !Ref SecGrIDRomanNumsWebApp
+      Tags:
+        - Key: Name
+          Value: Web Application Server of Roman Numerals Converter
+      UserData: 
+        Fn::Base64:
+            !Sub |
+              #!/bin/bash
+              yum update -y
+              yum install svn -y
+              sudo pip3 install flask
+              svn export https://github.com/ben-oz/aws-projects/trunk/roman-numerals-convertor-web-app
+              cd roman-numerals-convertor-web-app && sudo python3 main.py
+
+Outputs:
+  WebAddress:
+    Description: This is the URL of Kittens Carousel Website
+    Value: !Sub
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt RomanNumsWebAppServer.PublicDnsName
+      
